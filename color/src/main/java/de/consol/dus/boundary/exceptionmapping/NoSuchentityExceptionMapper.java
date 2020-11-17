@@ -2,15 +2,15 @@ package de.consol.dus.boundary.exceptionmapping;
 
 import de.consol.dus.boundary.response.ErrorCode;
 import de.consol.dus.boundary.response.ErrorResponse;
-import de.consol.dus.exception.NoSuchColorException;
+import de.consol.dus.exception.NoSuchEntityException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 @Provider
-public class NoSuchColorExceptionMapper implements ExceptionMapper<NoSuchColorException> {
+public class NoSuchentityExceptionMapper implements ExceptionMapper<NoSuchEntityException> {
   @Override
-  public Response toResponse(NoSuchColorException exception) {
+  public Response toResponse(NoSuchEntityException exception) {
     return Response
         .status(Response.Status.NOT_FOUND)
         .entity(ErrorResponse.builder()

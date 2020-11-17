@@ -31,4 +31,7 @@ public class User {
 
   @Column(name = "email")
   private String email;
+
+  @Column(name = "favoriteColor")
+  private String favoriteColor;
 }

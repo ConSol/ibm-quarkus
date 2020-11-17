@@ -19,3 +19,5 @@ mp:
           contact:
             email: marco.bungart@consol.de
             name: Marco Bungart
+color-rest/mp-rest/url: ${COLOR_URL:http://localhost:8081}
+color-rest/mp-rest/scope: javax.inject.Singleton

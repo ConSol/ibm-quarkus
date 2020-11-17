@@ -4,8 +4,8 @@ import de.consol.dus.boundary.request.CreateColorRequest;
 import de.consol.dus.boundary.response.ColorResponse;
 import de.consol.dus.entity.Color;
 import de.consol.dus.entity.ColorMapper;
-import de.consol.dus.exception.ColorAlreadyExistsException;
-import de.consol.dus.exception.NoSuchColorException;
+import de.consol.dus.exception.EntityAlreadyExistsException;
+import de.consol.dus.exception.NoSuchEntityException;
 import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -20,7 +20,7 @@ public class ColorService {
   public ColorResponse getColorByName(String name) {
     return colorRepository.findByName(name)
         .map(colorMapper::entityToResponse)
-        .orElseThrow(() -> new NoSuchColorException(
+        .orElseThrow(() -> new NoSuchEntityException(
             String.format("Color with name %s does not exist", name)));
   }
 
@@ -28,12 +28,12 @@ public class ColorService {
   public ColorResponse createColor(CreateColorRequest request) {
     final String name = request.getName();
     if (colorRepository.findByName(name).isPresent()) {
-      throw new ColorAlreadyExistsException(
+      throw new EntityAlreadyExistsException(
           String.format("Color with name %s already exists", name));
     }
     final String hexdec = request.getHexdec();
     if (colorRepository.findByHexdec(hexdec).isPresent()) {
-      throw new ColorAlreadyExistsException(
+      throw new EntityAlreadyExistsException(
           String.format("Color with hexdec %s already exists", hexdec));
     }
     final Color toCreate = colorMapper.requestToEntity(request);

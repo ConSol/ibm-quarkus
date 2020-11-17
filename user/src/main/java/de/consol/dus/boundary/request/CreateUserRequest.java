@@ -17,4 +17,8 @@ public class CreateUserRequest {
   @NotNull
   @Email
   private String email;
+
+  @NotNull
+  @Size(max = 255)
+  private String favoriteColor;
 }
