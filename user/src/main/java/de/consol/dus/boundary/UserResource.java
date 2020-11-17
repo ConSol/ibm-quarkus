@@ -4,6 +4,7 @@ import de.consol.dus.UserService;
 import de.consol.dus.boundary.request.CreateUserRequest;
 import java.net.URI;
 import javax.enterprise.context.ApplicationScoped;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -26,7 +27,7 @@ public class UserResource {
   private final UserService userService;
 
   @POST
-  public Response postUser(CreateUserRequest request) {
+  public Response postUser(@Valid CreateUserRequest request) {
     return Response
         .created(URI.create(String.format("%s/%s", PATH, request.getUsername())))
         .entity(userService.createUser(request)).build();
