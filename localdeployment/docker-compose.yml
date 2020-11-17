@@ -1,0 +1,12 @@
+version: '3.7'
+services:
+  dbms-service:
+    image: postgres:13.1@sha256:42c1b84839db8f78bb66b3d6f300a88a8517895454df4a1cb2f101dfae609769
+    volumes:
+      - ./postgres:/docker-entrypoint-initdb.d/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - '15432:5432'
