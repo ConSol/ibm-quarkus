@@ -16,6 +16,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import lombok.AllArgsConstructor;
+import org.eclipse.microprofile.metrics.annotation.Counted;
+import org.eclipse.microprofile.metrics.annotation.Metered;
+import org.eclipse.microprofile.metrics.annotation.Timed;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
@@ -47,6 +50,9 @@ public class UserResource {
               "malformed or a user with this username or email already exists",
           content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
   })
+  @Counted(name = "postUserCount", description = "How often POST /users has been called")
+  @Metered(name = "postUsersdMeter", description = "Meter information for POST /users")
+  @Timed(name = "postUserTimer", description = "How long it takes to to create a single users.")
   @POST
   public Response postUser(@Valid CreateUserRequest request) {
     return Response
@@ -67,6 +73,9 @@ public class UserResource {
           description = "When no user with this username has been found.",
           content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
   })
+  @Counted(name = "getUserCount", description = "How often GET /users/{username} has been called")
+  @Metered(name = "getUserMeter", description = "Meter information GET /users/{username}")
+  @Timed(name = "getUserTimer", description = "How long it takes to to fetch a single users.")
   @Path("/{username}")
   @GET
   public Response getUser(@PathParam("username") String username) {
