@@ -1,6 +1,6 @@
 version: '3.7'
 services:
-  user-dbms-service:
+  dbms-service:
     image: postgres:13.1@sha256:42c1b84839db8f78bb66b3d6f300a88a8517895454df4a1cb2f101dfae609769
     volumes:
       - ./postgres:/docker-entrypoint-initdb.d/
@@ -10,3 +10,8 @@ services:
       - POSTGRES_DB=postgres
     ports:
       - '15432:5432'
+  tracing-service:
+    image: jaegertracing/all-in-one@sha256:aa49be5a3c80f540aa25b26073f70da2bbd71a57dcaff8765c818e712d271ccf
+    ports:
+      - '14268:14268'
+      - '16686:16686'

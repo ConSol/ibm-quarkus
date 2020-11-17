@@ -4,11 +4,20 @@ quarkus:
     username: ${DB_USER:app_color}
     password: ${DB_PASSWORD:app_color}
     jdbc:
-      url: jdbc:${quarkus.datasource.db-kind}://${DB_HOST:localhost:15432}/${DB_NAME:app_color}
+      url: jdbc:tracing:${quarkus.datasource.db-kind}://${DB_HOST:localhost:15432}/${DB_NAME:app_color}
       min-size: ${DB_MIN_SIZE:2}
       max-size: ${DB_MAX_SIZE:8}
+      driver: io.opentracing.contrib.jdbc.TracingDriver
+  hibernate-orm:
+    dialect: org.hibernate.dialect.PostgreSQLDialect
   http:
     port: ${PORT:8081}
+  jaeger:
+    enabled: true
+    endpoint: ${TRACING_ENDPOINT:http://localhost:14268/api/traces}
+    sampler-type: const
+    sampler-param: 1
+    service-name: color-service
 mp:
   openapi:
     extensions:
