@@ -51,7 +51,7 @@ public class UserResource {
           content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
   })
   @Counted(name = "postUserCount", description = "How often POST /users has been called")
-  @Metered(name = "postUsersdMeter", description = "Meter information for POST /users")
+  @Metered(name = "postUserMeter", description = "Meter information for POST /users")
   @Timed(name = "postUserTimer", description = "How long it takes to to create a single users.")
   @POST
   public Response postUser(@Valid CreateUserRequest request) {

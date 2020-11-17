@@ -1,21 +1,21 @@
 quarkus:
   datasource:
     db-kind: postgresql
-    username: ${DB_USER:app_user}
-    password: ${DB_PASSWORD:app_user}
+    username: ${DB_USER:app_color}
+    password: ${DB_PASSWORD:app_color}
     jdbc:
-      url: jdbc:${quarkus.datasource.db-kind}://${DB_HOST:localhost:15432}/${DB_NAME:app_user}
+      url: jdbc:${quarkus.datasource.db-kind}://${DB_HOST:localhost:15432}/${DB_NAME:app_color}
       min-size: ${DB_MIN_SIZE:2}
       max-size: ${DB_MAX_SIZE:8}
   http:
-    port: ${PORT:8080}
+    port: ${PORT:8081}
 mp:
   openapi:
     extensions:
       smallrye:
         info:
           version: 1.0
-          description: Users API
+          description: Colors API
           contact:
             email: marco.bungart@consol.de
             name: Marco Bungart
