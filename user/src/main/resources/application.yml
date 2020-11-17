@@ -9,3 +9,13 @@ quarkus:
       max-size: ${DB_MAX_SIZE:8}
   http:
     port: 8080
+mp:
+  openapi:
+    extensions:
+      smallrye:
+        info:
+          version: 1.0
+          description: Users API
+          contact:
+            email: marco.bungart@consol.de
+            name: Marco Bungart
