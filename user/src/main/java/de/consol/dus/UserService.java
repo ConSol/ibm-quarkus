@@ -1,5 +1,6 @@
 package de.consol.dus;
 
+import de.consol.dus.boundary.keycloak.KeycloakService;
 import de.consol.dus.boundary.request.CreateUserRequest;
 import de.consol.dus.boundary.response.UserResponse;
 import de.consol.dus.entity.User;
@@ -16,6 +17,7 @@ public class UserService {
 
   private final UserRepository userRepository;
   private final UserMapper userMapper;
+  private final KeycloakService keycloakService;
 
   public UserResponse getUserByUsername(String username) {
     return userRepository.findByUsername(username)
@@ -36,6 +38,8 @@ public class UserService {
       throw new UserAlreadyExistsException(
           String.format("User with email %s already exists", email));
     }
+
+    keycloakService.createAccount(request);
 
     final User toCreate = userMapper.requestToUser(request);
     userRepository.persist(toCreate);
