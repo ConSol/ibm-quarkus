@@ -10,3 +10,19 @@ services:
       - POSTGRES_DB=postgres
     ports:
       - '15432:5432'
+  oidc-service:
+    image: jboss/keycloak:11.0.3@sha256:5242f5e0d7b22b9947c275f6ad9f92d7e9a870540cc6a6042b85185115e1af2f
+    environment:
+      - DB_VENDOR=postgres
+      - DB_ADDR=dbms-service
+      - DB_PORT=5432
+      - DB_USER=keycloak_user
+      - DB_PASSWORD=keycloak_user
+      - DB_DATABASE=keycloak
+      - KEYCLOAK_HTTP_PORT=8080
+      - KEYCLOAK_USER=keycloak
+      - KEYCLOAK_PASSWORD=keycloak
+    ports:
+      - '8090:8080'
+    depends_on:
+      - dbms-service
