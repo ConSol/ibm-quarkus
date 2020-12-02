@@ -4,8 +4,12 @@ import de.consol.dus.UserService;
 import de.consol.dus.boundary.request.CreateUserRequest;
 import de.consol.dus.boundary.response.ErrorResponse;
 import de.consol.dus.boundary.response.UserResponse;
+import io.quarkus.security.Authenticated;
+import io.quarkus.security.identity.SecurityIdentity;
 import java.net.URI;
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -36,6 +40,14 @@ public class UserResource {
 
   private final UserService userService;
 
+  private SecurityIdentity identity;
+
+  @Inject
+  UserResource setIdentity(SecurityIdentity identity) {
+    this.identity = identity;
+    return this;
+  }
+
   @Operation(summary = "Create a new user.")
   @APIResponses(value = {
       @APIResponse(
@@ -54,6 +66,7 @@ public class UserResource {
   @Metered(name = "postUsersdMeter", description = "Meter information for POST /users")
   @Timed(name = "postUserTimer", description = "How long it takes to to create a single users.")
   @POST
+  @RolesAllowed("admin")
   public Response postUser(@Valid CreateUserRequest request) {
     return Response
         .created(URI.create(String.format("%s/%s", PATH, request.getUsername())))
@@ -78,7 +91,15 @@ public class UserResource {
   @Timed(name = "getUserTimer", description = "How long it takes to to fetch a single users.")
   @Path("/{username}")
   @GET
+  @RolesAllowed("user")
   public Response getUser(@PathParam("username") String username) {
     return Response.ok(userService.getUserByUsername(username)).build();
+  }
+
+  @Authenticated
+  @Path("/me")
+  @GET
+  public Response getMe() {
+    return Response.ok(userService.getUserByUsername(identity.getPrincipal().getName())).build();
   }
 }
