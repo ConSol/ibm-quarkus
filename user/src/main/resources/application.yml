@@ -9,6 +9,19 @@ quarkus:
       max-size: ${DB_MAX_SIZE:8}
   http:
     port: 8080
+  oidc:
+    enabled: true
+    application-type: service
+    auth-server-url: ${OIDC_SERVER_URL:http://localhost:8090/auth}/realms/${OIDC_REALM_NAME:app}
+    client-id: ${OIDC_CLIENT_ID:backend-client}
+    roles:
+      role-claim-path: ${OIDC_ROLES_PATH:roles}
+    introspection-path: /protocol/openid-connect/userinfo
+    jwks-path: /protocol/openid-connect/certs
+    token:
+      principal-claim: preferred_username
+    credentials:
+      secret: ${OIDC_CLIENT_SECRET:109864f5-fc15-4eef-b4d9-5ce3bf789c34}
 mp:
   openapi:
     extensions:
