@@ -11,9 +11,12 @@ quarkus:
     port: 8080
   oidc:
     enabled: true
-    application-type: service
-    auth-server-url: ${OIDC_SERVER_URL:http://localhost:8090/auth}/realms/${OIDC_REALM_NAME:app}
+    application-type: SERVICE
+    auth-base-url: ${OIDC_SERVER_URL:http://localhost:8090/auth}
+    auth-server-url: ${quarkus.oidc.auth-base-url}/realms/${quarkus.oidc.realm-name}
+    admin-cli-id: ${OIDC_ADMIN_CLI_ID:admin-cli}
     client-id: ${OIDC_CLIENT_ID:backend-client}
+    realm-name: ${OIDC_REALM_NAME:app}
     roles:
       role-claim-path: ${OIDC_ROLES_PATH:roles}
     introspection-path: /protocol/openid-connect/userinfo
@@ -22,6 +25,7 @@ quarkus:
       principal-claim: preferred_username
     credentials:
       secret: ${OIDC_CLIENT_SECRET:109864f5-fc15-4eef-b4d9-5ce3bf789c34}
+      admin-cli-secret: ${OIDC_ADMIN_CLI_SECRET:64130375-5e1a-4b13-b8f4-fad8cf039e16}
 mp:
   openapi:
     extensions:
